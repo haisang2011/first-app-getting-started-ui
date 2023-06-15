@@ -12,6 +12,7 @@ export interface CurrentUserProps {
   middleName: string;
   age: number;
   gender: Gender,
+  avatar: string;
 }
 
 interface AuthValues {

@@ -38,6 +38,9 @@
       "@Context/*": [
         "contexts/*"
       ],
+      "@Hooks/*": [
+        "hooks/index.ts"
+      ],
     },
     "strictNullChecks": false,
   },

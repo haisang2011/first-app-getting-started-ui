@@ -13,10 +13,16 @@ interface LoginState {
 
 const RightSide = () => {
   const navigate = useNavigate();
-  const { setCurrentUser } = useContext(AuthContext);
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
   const [formData, setFormData] = useState<LoginState>({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  React.useEffect(() => {
+    if (currentUser) {
+      navigate('/', { replace: true });
+    }
+  }, [])
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -29,6 +35,7 @@ const RightSide = () => {
     try {
       const response = await Axios.post('/auth/login', formData);
       localStorage.setItem('access-token', response.data.accessToken);
+      localStorage.setItem('current-user', JSON.stringify(response.data.user))
       setCurrentUser(response.data.user);
       navigate('/');
     } catch (error) {

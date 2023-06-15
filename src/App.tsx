@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -20,7 +20,15 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [currentUser, setCurrentUser] = useState<CurrentUserProps | null>(null);
+  const [currentUser, setCurrentUser] = useState<CurrentUserProps | null>(
+    () => {
+      const user = JSON.parse(localStorage.getItem('current-user'));
+      if (user) {
+        return user;
+      }
+      return null;
+    }
+  );
 
   return (
     <AuthContext.Provider
