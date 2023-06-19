@@ -11,7 +11,8 @@ export default defineConfig({
       '@Common': path.resolve(__dirname, './src/common'),
       '@Pages': path.resolve(__dirname, './src/pages'),
       '@Context': path.resolve(__dirname, './src/contexts'),
-      '@Hooks': path.resolve(__dirname, './src/hooks/index.ts'),
+      '@Hooks': path.resolve(__dirname, './src/hooks'),
+      '@Enums': path.resolve(__dirname, './src/enums'),
     },
   },
 })

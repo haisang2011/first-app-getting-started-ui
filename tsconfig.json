@@ -38,8 +38,13 @@
       "@Context/*": [
         "contexts/*"
       ],
-      "@Hooks/*": [
-        "hooks/index.ts"
+      "@Hooks": [
+        "hooks/index.ts",
+        "hooks/*"
+      ],
+      "@Enums": [
+        "enums/index.ts",
+        "enums/*",
       ],
     },
     "strictNullChecks": false,

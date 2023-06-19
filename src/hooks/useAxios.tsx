@@ -1,20 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Axios from '@Axios';
+import { RequestMethod } from '@Enums';
+import authContext from '@/contexts/auth.context';
 
 type ReturnType<T> = {
   loading?: boolean;
   error?: Error;
   data?: T;
-}
-
-export enum RequestMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
+  refetch?: () => void;
 }
 
 function useAxios<T>(url: string, method: RequestMethod): ReturnType<T> {
+  const { setCurrentUser } = useContext(authContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState<T>(null);
@@ -25,17 +22,10 @@ function useAxios<T>(url: string, method: RequestMethod): ReturnType<T> {
     if (cancelRequest.current) return;
   }
 
-  const getData = () => (
-    Axios({
-      method,
-      url,
-    })
-  );
-
   const fetchByMethod = () => {
     switch (method) {
       case RequestMethod.GET:
-        return getData();
+        return Axios.get(url);
       case RequestMethod.POST:
         return Axios.post(url);
       case RequestMethod.PUT:
@@ -47,28 +37,36 @@ function useAxios<T>(url: string, method: RequestMethod): ReturnType<T> {
     }
   }
 
+  const handleUnAuthorizedError = () => {
+    localStorage.removeItem('access-token');
+    localStorage.removeItem('current-user');
+  }
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetchByMethod();
+      shouldCancelRequest();
+      setData(response.data);
+    } catch (error: any) {
+      shouldCancelRequest();
+      if (error && error.status === 401 && error.statusText === "Unauthorized") {
+        handleUnAuthorizedError();
+        setCurrentUser(null);
+      } else {
+        setError(error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!url) return;
-
     cancelRequest.current = false;
 
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await fetchByMethod();
-        shouldCancelRequest();
-        setData(response.data);
-      } catch (error) {
-        shouldCancelRequest();
-        setError("Has Error: " + error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
-
     return () => {
       cancelRequest.current = true;
     }
@@ -78,6 +76,7 @@ function useAxios<T>(url: string, method: RequestMethod): ReturnType<T> {
     loading,
     error,
     data,
+    refetch: fetchData
   };
 }
 

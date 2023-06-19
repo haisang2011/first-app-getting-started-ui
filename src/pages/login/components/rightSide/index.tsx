@@ -39,7 +39,6 @@ const RightSide = () => {
       setCurrentUser(response.data.user);
       navigate('/');
     } catch (error) {
-      console.log("==> Error: ", error);
       setError("hahahaha!");
     } finally {
       setLoading(false);
