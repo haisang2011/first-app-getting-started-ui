@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom'
 import Login from '@Pages/login';
 import Home from '@Pages/home';
+import Register from '@Pages/register';
 import Contact from '@Pages/contact';
 import Wrapper from '@Common/wrapper';
 import AuthContext, { CurrentUserProps } from '@Context/auth.context';
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/contact",
     element: <Contact />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   }
 ]);
 
