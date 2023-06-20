@@ -1,13 +1,9 @@
 import useAxios from "./useAxios";
 import { RequestMethod } from '@Enums';
-
-interface Product {
-
-}
-
+import { Product } from '@Common/interfaces';
 
 function useProducts(method: RequestMethod) {
-  const { data, error, loading, refetch } = useAxios('products', method);
+  const { data, error, loading, refetch } = useAxios<Product[]>('products', method);
 
   return { data, error, loading, refetch };
 }

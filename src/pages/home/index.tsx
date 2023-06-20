@@ -3,23 +3,38 @@ import Navbar from '@Common/navbar';
 import ProductItem from './components/ProductItem';
 import { useProducts } from '@Hooks';
 import { RequestMethod } from '@Enums';
+import { Box } from '@mui/material';
 
 const Home = (props: any) => {
-  const t = useProducts(RequestMethod.GET);
+  const { data } = useProducts(RequestMethod.GET);
+
+  const renderNoProductData = (<div>No Products</div>);
+
+  const renderProducts = () => {
+    if (!data || data.length === 0) {
+      return renderNoProductData;
+    }
+
+    return data.map(product => (
+      <Box
+        sx={{
+          mx: 1,
+          my: 1.5,
+          overflow: 'hidden',
+          boxShadow: '0 0 2px 1px rgba(0,0,0,0.2)',
+          borderRadius: 3,
+        }}
+      >
+        <ProductItem data={product} />
+      </Box>
+    ));
+  }
 
   return (
     <React.Fragment>
       <Navbar />
-      <button onClick={t.refetch}>Refetch</button>
-      <div style={{ padding: 24, background: '#2C3333', border: '1px solid', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
+      <div style={{ padding: 24, display: 'flex', flexWrap: 'wrap' }}>
+        {renderProducts()}
       </div>
     </React.Fragment>
   )
