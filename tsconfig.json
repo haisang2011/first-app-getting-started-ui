@@ -49,6 +49,9 @@
       "@Utilities": [
         "utilities/index.ts",
       ],
+      "@Hocs": [
+        "hocs/index.ts",
+      ],
     },
     "strictNullChecks": false,
   },

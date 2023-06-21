@@ -15,15 +15,42 @@ import AuthContext from '@Context/auth.context';
 import { ButtonGroup } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useLogout } from '@Hooks';
 
 const pages = ['home', 'products', 'contact'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+type SettingType = {
+  name: string;
+  execution: (callback?: Function) => void;
+}
+
+const settings: SettingType[] = [
+  {
+    name: 'Profile',
+    execution: () => { },
+  },
+  {
+    name: 'Account',
+    execution: () => { },
+  },
+  {
+    name: 'Dashboard',
+    execution: () => { },
+  },
+  {
+    name: 'Logout',
+    execution: (callback: Function) => {
+      callback();
+    },
+  },
+]
 
 const desktopStyles = { xs: 'none', md: 'flex' };
 const mobileStyles = { xs: 'flex', md: 'none' };
 
 function Navbar() {
-  const { currentUser } = React.useContext(AuthContext);
+  const { logout, data, error, loading } = useLogout();
+  const { currentUser, setCurrentUser } = React.useContext(AuthContext);
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -112,6 +139,26 @@ function Navbar() {
     return renderOnSmallDevices();
   }
 
+  const handleLogout = async () => {
+    await logout();
+    setCurrentUser(null);
+    localStorage.clear();
+  }
+
+  const renderSettings = () => {
+    return settings.map((setting) => (
+      <MenuItem
+        key={setting.name}
+        onClick={
+          setting.name === 'Logout' ? () => setting.execution(handleLogout)
+            : () => setting.execution()
+
+        }>
+        <Typography textAlign="center">{setting.name}</Typography>
+      </MenuItem>
+    ))
+  }
+
   const renderMenu = () => {
     if (currentUser) {
       return (
@@ -143,11 +190,7 @@ function Navbar() {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
+            {renderSettings()}
           </Menu>
         </React.Fragment>
       )

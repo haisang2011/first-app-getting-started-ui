@@ -14,6 +14,7 @@ export default defineConfig({
       '@Hooks': path.resolve(__dirname, './src/hooks'),
       '@Enums': path.resolve(__dirname, './src/enums'),
       '@Utilities': path.resolve(__dirname, './src/utilities/index.ts'),
+      '@Hocs': path.resolve(__dirname, './src/hocs/index.ts'),
     },
   },
 })

@@ -8,6 +8,7 @@ const instance: any = axios.create({
 instance.interceptors.request.use(function (config: any) {
   const token = localStorage.getItem('access-token');
   config.headers['Authorization'] = token ?? null;
+  console.log({ config });
   return config;
 }, function (error: any) {
   return Promise.reject(error);
