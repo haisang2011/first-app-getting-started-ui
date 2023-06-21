@@ -1,38 +1,46 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom'
-import Login from '@Pages/login';
-import Home from '@Pages/home';
-import Register from '@Pages/register';
-import Contact from '@Pages/contact';
+
+const Login = React.lazy(() => import('@Pages/login'));
+const Home = React.lazy(() => import('@Pages/home'));
+const Contact = React.lazy(() => import('@Pages/contact'));
+const Register = React.lazy(() => import('@Pages/register'));
+
+import { withSuspense } from '@Hocs';
 import Wrapper from '@Common/wrapper';
 import AuthContext, { CurrentUserProps } from '@Context/auth.context';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './mui';
 
+const HomeComponent = withSuspense(Home);
+const ContactComponent = withSuspense(Contact);
+const LoginComponent = withSuspense(Login);
+const RegisterComponent = withSuspense(Register);
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <HomeComponent />
   },
   {
     path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/contact",
-    element: <Contact />,
+    element: <LoginComponent />,
   },
   {
     path: "/register",
-    element: <Register />,
+    element: <RegisterComponent />
+  },
+  {
+    path: "/contact",
+    element: <ContactComponent />,
   }
 ]);
 
 function App() {
-  const [currentUser, setCurrentUser] = useState<CurrentUserProps | null>(
+  const [currentUser, setCurrentUser] = React.useState<CurrentUserProps | null>(
     () => {
       const user = JSON.parse(localStorage.getItem('current-user'));
       if (user) {

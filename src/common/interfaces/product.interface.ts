@@ -4,6 +4,7 @@ interface IProduct {
   name: string;
   price: number;
   image_url: string;
+  short_description: string;
   created_at: string;
   updated_at: string;
 }
