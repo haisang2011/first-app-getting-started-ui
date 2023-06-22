@@ -7,10 +7,28 @@ type ReturnType<T> = {
   loading?: boolean;
   error?: Error;
   data?: T;
-  refetch?: () => void;
+  refetch?: () => Promise<void>;
 }
 
-function useAxios<T>(url: string, method: RequestMethod): ReturnType<T> {
+export type Options = {
+  isLazy?: boolean;
+}
+
+type ParametersUseAxios = {
+  url: string;
+  method: RequestMethod;
+  body?: unknown;
+  options?: Options;
+}
+
+function useAxios<T>(
+  {
+    url,
+    method,
+    body,
+    options,
+  }: ParametersUseAxios
+): ReturnType<T> {
   const { setCurrentUser } = useContext(authContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,7 +45,7 @@ function useAxios<T>(url: string, method: RequestMethod): ReturnType<T> {
       case RequestMethod.GET:
         return Axios.get(url);
       case RequestMethod.POST:
-        return Axios.post(url);
+        return Axios.post(url, body);
       case RequestMethod.PUT:
         return Axios.put(url);
       case RequestMethod.DELETE:
@@ -43,6 +61,7 @@ function useAxios<T>(url: string, method: RequestMethod): ReturnType<T> {
   }
 
   const fetchData = async () => {
+    console.log("==> fetchData Started");
     try {
       setLoading(true);
       setError(null);
@@ -63,7 +82,7 @@ function useAxios<T>(url: string, method: RequestMethod): ReturnType<T> {
   };
 
   useEffect(() => {
-    if (!url) return;
+    if (!url || !method || (options && options.isLazy === true)) return;
     cancelRequest.current = false;
 
     fetchData();
