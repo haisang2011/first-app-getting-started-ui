@@ -3,7 +3,7 @@ import { RequestMethod } from '@Enums';
 import { Product } from '@Common/interfaces';
 
 function useProducts(method: RequestMethod) {
-  const { data, error, loading, refetch } = useAxios<Product[]>('products', method);
+  const { data, error, loading, refetch } = useAxios<Product[]>({ url: 'products', method });
 
   return { data, error, loading, refetch };
 }

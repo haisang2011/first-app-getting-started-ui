@@ -12,10 +12,11 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import AuthContext from '@Context/auth.context';
+import CartContext from '@Context/cart.context';
 import { ButtonGroup } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useLogout } from '@Hooks';
+import ShoppingCartComponent from './ShoppingCart';
 
 const pages = ['home', 'products', 'contact'];
 
@@ -49,9 +50,10 @@ const desktopStyles = { xs: 'none', md: 'flex' };
 const mobileStyles = { xs: 'flex', md: 'none' };
 
 function Navbar() {
-  const { logout, data, error, loading } = useLogout();
-  const { currentUser, setCurrentUser } = React.useContext(AuthContext);
   const navigate = useNavigate();
+  const { logout } = useLogout();
+  const { currentUser, setCurrentUser } = React.useContext(AuthContext);
+  const { cartData } = React.useContext(CartContext);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -165,7 +167,7 @@ function Navbar() {
         <React.Fragment>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ marginRight: 5 }}>
-              <ShoppingCartIcon fontSize='large' />
+              <ShoppingCartComponent numberOfItems={cartData.cart_details.length ?? null} />
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography sx={{ fontSize: 14 }}>{currentUser.email}</Typography>

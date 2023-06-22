@@ -1,3 +1,4 @@
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -6,12 +7,19 @@ import { Product } from '@Common/interfaces';
 import { Button } from '@mui/material';
 import { formatCurrency } from '@Utilities';
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useAddCartItem } from '@Hooks';
+import CartContext from '@Context/cart.context';
 
 interface ProductProps {
   data: Product;
 }
 
 function ProductItem({ data }: ProductProps) {
+  const { getCartDataFromApi } = React.useContext(CartContext);
+  const { refetch: addToCart } = useAddCartItem({ product_id: data.id, product_quantity: 1 });
+
+  const onAddToCart = () => addToCart().then(() => getCartDataFromApi());
+
   return (
     <Card sx={{ maxWidth: 320 }}>
       <LazyLoadImage
@@ -28,7 +36,7 @@ function ProductItem({ data }: ProductProps) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Button fullWidth>Add to Cart</Button>
+        <Button fullWidth onClick={onAddToCart}>Add to Cart</Button>
         <Button fullWidth>Buy now</Button>
       </CardActions>
     </Card>
