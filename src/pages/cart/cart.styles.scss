@@ -1,0 +1,57 @@
+$container-height: 100vh;
+$header-bar-height: 7rem;
+
+@mixin set-scrollbar {
+  &::-webkit-scrollbar {
+    appearance: none;
+    width: 0.75rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 10rem;
+    overflow: hidden;
+    background-color: #FFFFFF;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(-45deg, #6a5af9, #d66efd);
+    border-radius: 10rem;
+  }
+}
+
+.container {
+  padding: 0 2rem;
+  background-color: #e8e8e8;
+  height: $container-height;
+
+  .header-bar-container {
+    display: flex;
+    align-items: center;
+    height: $header-bar-height;
+  }
+
+  .order-summary-wrapper {
+    background-color: #FFFFFF;
+    padding: 0.5rem;
+    border-radius: 1.25rem;
+    box-shadow: 0px 0px 3px 0px rgba($color: #000000, $alpha: 0.25);
+    height: calc($container-height - $header-bar-height);
+    overflow: hidden;
+    flex-basis: 60%;
+  }
+
+  .order-summary-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    background-color: inherit;
+    height: 100%;
+    overflow-y: scroll;
+    @include set-scrollbar;
+  }
+
+  .payment-form-container {
+    border-radius: 1rem;
+    background-color: #FFFFFF;
+    flex-basis: 40%;
+  }
+}

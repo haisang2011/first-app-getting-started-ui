@@ -25,9 +25,13 @@ const TypographyComponent = (props: any) => {
   )
 }
 
-function HeaderBar() {
+interface HeaderBarProps {
+  className?: string;
+}
+
+function HeaderBar(props: HeaderBarProps) {
   return (
-    <Box>
+    <div className={`${props.className ?? ''}`}>
       <TypographyComponent color="inherit">
         ROCKNEST
         <div style={{ display: 'inline-block', margin: '0 0.75rem' }} />
@@ -35,7 +39,7 @@ function HeaderBar() {
           STORE
         </TypographyComponent>
       </TypographyComponent>
-    </Box>
+    </div>
   );
 }
 

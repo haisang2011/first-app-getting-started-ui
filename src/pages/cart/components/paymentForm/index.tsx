@@ -1,8 +1,12 @@
 import React from 'react';
 
-function PaymentForm() {
+interface PaymentFormProps {
+  className?: string;
+}
+
+function PaymentForm(props: PaymentFormProps) {
   return (
-    <div />
+    <div className={`${props.className ?? ''}`} />
   );
 }
 
