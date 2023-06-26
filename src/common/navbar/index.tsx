@@ -167,7 +167,7 @@ function Navbar() {
         <React.Fragment>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ marginRight: 5 }}>
-              <ShoppingCartComponent numberOfItems={cartData.cart_details.length ?? null} />
+              <ShoppingCartComponent numberOfItems={cartData && (cartData.cart_details.length ?? null)} />
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography sx={{ fontSize: 14 }}>{currentUser.email}</Typography>
@@ -226,7 +226,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            ROCKNEST STORE
           </Typography>
 
           {renderMenuItemOnNav(false)}
@@ -247,7 +247,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            ROCKNEST STORE
           </Typography>
           {renderMenuItemOnNav(true)}
 

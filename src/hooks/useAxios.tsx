@@ -18,6 +18,7 @@ type ParametersUseAxios = {
   url: string;
   method: RequestMethod;
   body?: unknown;
+  params?: unknown;
   options?: Options;
 }
 
@@ -26,6 +27,7 @@ function useAxios<T>(
     url,
     method,
     body,
+    params,
     options,
   }: ParametersUseAxios
 ): ReturnType<T> {
@@ -49,7 +51,7 @@ function useAxios<T>(
       case RequestMethod.PUT:
         return Axios.put(url);
       case RequestMethod.DELETE:
-        return Axios.delete(url);
+        return Axios.delete(url, { params });
       default:
         return null;
     }
@@ -61,7 +63,6 @@ function useAxios<T>(
   }
 
   const fetchData = async () => {
-    console.log("==> fetchData Started");
     try {
       setLoading(true);
       setError(null);

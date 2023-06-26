@@ -9,6 +9,7 @@ import { formatCurrency } from '@Utilities';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useAddCartItem } from '@Hooks';
 import CartContext from '@Context/cart.context';
+import "./productItem.styles.scss";
 
 interface ProductProps {
   data: Product;
@@ -16,16 +17,17 @@ interface ProductProps {
 
 function ProductItem({ data }: ProductProps) {
   const { getCartDataFromApi } = React.useContext(CartContext);
-  const { refetch: addToCart } = useAddCartItem({ product_id: data.id, product_quantity: 1 });
+  const { refetch: addToCart } = useAddCartItem({ product_id: data.id });
 
   const onAddToCart = () => addToCart().then(() => getCartDataFromApi());
 
   return (
-    <Card sx={{ maxWidth: 320 }}>
+    <Card sx={{ maxWidth: 320 }} className='card'>
       <LazyLoadImage
+        className='card__image'
         src={data.image_url}
-        placeholder={<div>Loading...</div>}
-        width={600} height={200}
+        placeholderSrc='https://placehold.co/600x400'
+        width={320} height={200}
         alt="Image Alt"
       />
       <CardContent>

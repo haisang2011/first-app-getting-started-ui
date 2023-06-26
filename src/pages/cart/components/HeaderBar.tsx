@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box } from '@mui/material';
-import AdbIcon from '@mui/icons-material/Adb';
 import Typography from '@mui/material/Typography';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ButtonBase from '@mui/material/ButtonBase';
+import { useNavigate } from 'react-router-dom';
 
 const TypographyComponent = (props: any) => {
   return (
@@ -30,8 +31,14 @@ interface HeaderBarProps {
 }
 
 function HeaderBar(props: HeaderBarProps) {
+  const navigate = useNavigate();
+
   return (
     <div className={`${props.className ?? ''}`}>
+      <ButtonBase onClick={() => navigate(-1)}>
+        <ArrowBackIcon sx={{ fontSize: "2.5rem", mr: 1.5 }} />
+      </ButtonBase>
+
       <TypographyComponent color="inherit">
         ROCKNEST
         <div style={{ display: 'inline-block', margin: '0 0.75rem' }} />

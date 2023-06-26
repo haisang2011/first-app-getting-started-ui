@@ -22,7 +22,6 @@ function useLocalStorage<T>(key: string, initialValue: Value<T>) {
 
         return result;
       } catch (error) {
-        console.error('Error retrieving data from localStorage:', error);
         return getValueFromCheckingInstanceOf(initialValue, Function);
       }
     }
@@ -34,7 +33,6 @@ function useLocalStorage<T>(key: string, initialValue: Value<T>) {
       setStoredValue(valueToStore);
       localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
-      console.error('Error saving data to localStorage:', error);
     }
   }
 
@@ -45,7 +43,6 @@ function useLocalStorage<T>(key: string, initialValue: Value<T>) {
           const item = localStorage.getItem(key);
           setStoredValue(item ? JSON.parse(item) : initialValue instanceof Function ? initialValue() : initialValue);
         } catch (error) {
-          console.error('Error retrieving data from localStorage:', error);
         }
       }
     };

@@ -1,22 +1,27 @@
 import React, { useEffect } from 'react';
+import "./home.styles.scss";
 import Navbar from '@Common/navbar';
 import ProductItem from './components/ProductItem';
 import { useProducts } from '@Hooks';
 import { RequestMethod } from '@Enums';
 import { Box } from '@mui/material';
+import Spinner from '@Common/spinner';
 
 const Home = (props: any) => {
-  const { data } = useProducts(RequestMethod.GET);
+  const { data, loading } = useProducts(RequestMethod.GET);
 
-  const renderNoProductData = (<div>No Products</div>);
+  const renderNoProductData = (<div className='home__no-data'>No Products</div>);
 
   const renderProducts = () => {
-    if (!data || data.length === 0) {
-      return renderNoProductData;
+    if (!data) {
+      return;
     }
+
+    if (data.length === 0) return renderNoProductData;
 
     return data.map(product => (
       <Box
+        key={product.id}
         sx={{
           mx: 1,
           my: 1.5,
@@ -25,7 +30,7 @@ const Home = (props: any) => {
           borderRadius: 3,
         }}
       >
-        <ProductItem data={product} />
+        <ProductItem key={product.id} data={product} />
       </Box>
     ));
   }
@@ -34,7 +39,7 @@ const Home = (props: any) => {
     <React.Fragment>
       <Navbar />
       <div style={{ padding: 24, display: 'flex', flexWrap: 'wrap' }}>
-        {renderProducts()}
+        {loading ? <Spinner wrapperClass='home__spinner' /> : renderProducts()}
       </div>
     </React.Fragment>
   )

@@ -36,7 +36,6 @@ const RightSide = () => {
       const response = await Axios.post('/auth/login', formData);
       localStorage.setItem('access-token', response.data.accessToken);
       localStorage.setItem('current-user', JSON.stringify(response.data.user))
-      console.log("sasa: ", response.data.user);
       setCurrentUser(response.data.user);
       navigate('/');
     } catch (error) {

@@ -8,10 +8,14 @@ function CartPage() {
     <div className='container'>
       <HeaderBar className='header-bar-container' />
       <Box sx={{ display: 'flex', gap: 2 }} >
-        <div className='order-summary-wrapper' >
+        <div
+          className='order-summary-wrapper'
+        >
           <OrderSummary className='order-summary-container' />
         </div>
-        <PaymentForm className='payment-form-container' />
+        <div className='payment-form-wrapper'>
+          <PaymentForm className='payment-form-container' />
+        </div>
       </Box>
     </div>
   );
